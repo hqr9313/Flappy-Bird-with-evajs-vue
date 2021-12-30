@@ -8,6 +8,16 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@eva/eva.js": "^1.2.5",
+    "@eva/plugin-matterjs": "^1.2.5",
+    "@eva/plugin-renderer": "^1.2.5",
+    "@eva/plugin-renderer-event": "^1.2.5",
+    "@eva/plugin-renderer-graphics": "^1.2.5",
+    "@eva/plugin-renderer-img": "^1.2.5",
+    "@eva/plugin-renderer-render": "^1.2.5",
+    "@eva/plugin-renderer-sprite-animation": "^1.2.5",
+    "@eva/plugin-renderer-text": "^1.2.5",
+    "@eva/plugin-transition": "^1.2.5",
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
