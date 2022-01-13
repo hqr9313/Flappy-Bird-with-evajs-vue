@@ -723,6 +723,15 @@
   "resolved" "https://registry.npmjs.org/@eva/inspector-decorator/-/inspector-decorator-0.0.5.tgz"
   "version" "0.0.5"
 
+"@eva/plugin-evax@^1.2.5":
+  "integrity" "sha512-Q1CI2beKdDj2DiL73g+054rGRuycVSzj+UkkO6Iwl87b14E2Fa+lu852JTH0OUmdJIGZlj80VPmNkGEexubDVA=="
+  "resolved" "https://registry.npmjs.org/@eva/plugin-evax/-/plugin-evax-1.2.5.tgz"
+  "version" "1.2.5"
+  dependencies:
+    "@eva/eva.js" "1.2.5"
+    "eventemitter3" "^3.1.2"
+    "lodash-es" "^4.17.21"
+
 "@eva/plugin-matterjs@^1.2.5":
   "integrity" "sha512-1EdAXNQQ3q+yrlws4W8C7xROJqcvoRlbZuq6mBdXJMQsEmckAQ6X/GKLLZbj6VKs64K+0kxs74UqleYSd9B+WA=="
   "resolved" "https://registry.npmjs.org/@eva/plugin-matterjs/-/plugin-matterjs-1.2.5.tgz"
@@ -782,6 +791,16 @@
     "@eva/renderer-adapter" "1.2.5"
     "pixi.js" "^4.8.7"
 
+"@eva/plugin-renderer-sprite@^1.2.5":
+  "integrity" "sha512-a57bhdbkSZQPVML5JenAaNP5AOmXWrop4nT+HeAVbm8BH+fsgKqszJMNe5oh8mz4VPWyQSiP7CpO0n3XJg0wAw=="
+  "resolved" "https://registry.npmjs.org/@eva/plugin-renderer-sprite/-/plugin-renderer-sprite-1.2.5.tgz"
+  "version" "1.2.5"
+  dependencies:
+    "@eva/eva.js" "1.2.5"
+    "@eva/inspector-decorator" "^0.0.5"
+    "@eva/plugin-renderer" "1.2.5"
+    "pixi.js" "^4.8.7"
+
 "@eva/plugin-renderer-text@^1.2.5":
   "integrity" "sha512-heA6lk/DCM6Pt+FoFAOnw80NYdHubOwNnRbE5LqlmGyQYPLFttEiV2TDGM5iyMmJnfXQ1VGyH2wmiqIXZQVkEg=="
   "resolved" "https://registry.npmjs.org/@eva/plugin-renderer-text/-/plugin-renderer-text-1.2.5.tgz"
@@ -792,6 +811,17 @@
     "@eva/plugin-renderer" "1.2.5"
     "@eva/renderer-adapter" "1.2.5"
     "pixi.js" "^4.8.7"
+
+"@eva/plugin-renderer-tiling-sprite@^1.2.5":
+  "integrity" "sha512-yNR82UJpuYdKwGnTSnXvySWdOBKx8RQwZ7JcF5b7Wu69U2nIlj7tc5yw/kXyQU53bmf6mbYfwbtFFRahuycr4w=="
+  "resolved" "https://registry.npmjs.org/@eva/plugin-renderer-tiling-sprite/-/plugin-renderer-tiling-sprite-1.2.5.tgz"
+  "version" "1.2.5"
+  dependencies:
+    "@eva/eva.js" "1.2.5"
+    "@eva/inspector-decorator" "^0.0.5"
+    "@eva/plugin-renderer" "1.2.5"
+    "@eva/renderer-adapter" "1.2.5"
+    "@types/pixi.js" "^4.8.9"
 
 "@eva/plugin-renderer@^1.2.5", "@eva/plugin-renderer@1.2.5":
   "integrity" "sha512-3c2qWFC3rZSCLygxnEUqa9Jr9M3oE5XQSkglG4b0dpQXBis6DpEQajJAQQmdk0CDlIAsASl9kXqOXEfzIxkiDg=="
@@ -5407,6 +5437,11 @@
   "version" "1.0.0"
   dependencies:
     "object-visit" "^1.0.0"
+
+"matter-js@^0.18.0":
+  "integrity" "sha512-/ZVem4WygUnbmo/iE4oHZpZS97btfBtYy5Iwn1396vUZU7YhgVEN8J4UWwfZwY1ZqoTYlPgjvSw9WXauuXL0mg=="
+  "resolved" "https://registry.npmjs.org/matter-js/-/matter-js-0.18.0.tgz"
+  "version" "0.18.0"
 
 "md5.js@^1.3.4":
   "integrity" "sha1-tdB7jjIW4+J81yjXL3DR5qNCAF8="

@@ -22,9 +22,9 @@ export default function createWall(x, y, width, height) {
                 isStatic: true, // Whether the object is still, any force acting on the object in a static state will not produce any effect
                 restitution: 0.1,
                 frictionAir: 0,
-                
+               
                 friction: 0,
-                frictionStatic: 0,
+                frictionStatic: 1,
                 force: {
                     x: 0,
                     y: 0,

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 <template>
   <div class="page">
     <!-- <button @click="showBasket">sho22w eva</button> -->
@@ -31,7 +32,10 @@ import createBtn from "./gameObjects/btn.ts";
 import createWall from "./gameObjects/wall.ts";
 import createSensor from "./gameObjects/sensor.ts";
 import createScore from "./gameObjects/score.ts";
-import sources from "./resource";
+import createPower from "./gameObjects/power.ts";
+
+import sources from "./basketBallResource";
+import store from "./store.ts";
 
 export default {
   created() {
@@ -45,9 +49,27 @@ export default {
       isGoalA: false,
       isGoalB: false,
       score: 0,
+      touchStartTime: 0,
+      touchEndTime: 0,
     };
   },
   methods: {
+    getTouchTime() {
+      //返回毫秒
+      let second = this.touchEndTime - this.touchStartTime;
+      return second / 1000;
+    },
+    test(body, position, force) {
+      body.force.x += force.x;
+      body.force.y += force.y;
+      var offset = {
+        x: position.x - body.position.x,
+        y: position.y - body.position.y,
+      };
+      body.torque += offset.x * force.y - offset.y * force.x;
+
+      console.log(99);
+    },
     showBasket() {
       let _this = this;
       resource.addResource(sources);
@@ -58,7 +80,7 @@ export default {
             width: 750,
             height: 1484,
             antialias: true,
-            resolution: 2,
+            resolution: window.devicePixelRatio / 2,
           }),
           new ImgSystem(),
           new TransitionSystem(),
@@ -70,12 +92,12 @@ export default {
           new TextSystem(),
           new EventSystem(),
           new PhysicsSystem({
-            resolution: 2, //
-            isTest: true, // 是否开启调试模式保持RendererSystem的resolution一致
-            element: document.getElementById("debugger"), // 调试模式下canvas节点的挂载点
+            resolution: window.devicePixelRatio / 2, //
+            // isTest: true, // 是否开启调试模式保持RendererSystem的resolution一致
+            // element: document.getElementById("debugger"), // 调试模式下canvas节点的挂载点
             world: {
               gravity: {
-                y: 5, // 重力
+                y: 9.8, // 重力
               },
             },
             mouse: {
@@ -93,7 +115,7 @@ export default {
         y: 1100,
       };
 
-      const ball = createBall(pos);
+      store.ball = createBall(pos);
       const { basetFront, playAnim } = createBasketFront();
       const btn = createBtn({
         text: "投球",
@@ -111,15 +133,76 @@ export default {
             y: 1,
           },
         },
-        callback: () => {
-          physics.body.force.y = -6;
-          physics.body.force.x = -0.4;
+        touchStart: () => {
+          _this.touchStartTime = new Date();
+          // console.log(store.ball.transform.position.y);
+          transition.play("idle", 1);
+        },
+
+        touchEnd: () => {
+          _this.touchEndTime = new Date();
+          var s = _this.getTouchTime();
+          transition.stop("idle");
+          // physics.body.force.y = -0.5;
+          //根据长按时间计算投球力度
+          //在地上
+
+          if (s > 1) {
+            s = 1;
+          }
+          physics.body.force.y = -1.5 * (1 + s);
+
+          physics.body.force.x = -0.2 * (1 + s);
+
+          // alert(ball.transform.position.x);
+          //如果球飞出界限，重置位置
+          // if (
+          //   store.ball.transform.position.x < 0 ||
+          //   store.ball.transform.position.x > 750 ||
+          //   store.ball.transform.position.y < 0 ||
+          //   store.ball.transform.position.y > 1484
+          // ) {
+          //   //重置位置
+          // } else {
+
+          // }
         },
       });
-      const wall_bottom = createWall(0, 1484 - 20, 730,20);
-      const wall_left = createWall(0, 0, 20, 1484);
-      const wall_right = createWall(730, 0, 20, 1484);
-      const wall_top = createWall(0, 0, 730, 20);
+      const power = createPower();
+      const transition = power.addComponent(
+        new Transition({
+          group: {
+            idle: [
+              {
+                name: "scale.x",
+                component: power.transform,
+                values: [
+                  {
+                    time: 0,
+                    value: 1,
+                    tween: "linear",
+                  },
+                  {
+                    time: 500,
+                    value: 5,
+                    tween: "linear",
+                  },
+                  {
+                    time: 1000,
+                    value: 10,
+                    tween: "linear",
+                  },
+                ],
+              },
+            ],
+          },
+        })
+      );
+
+      const wall_bottom = createWall(0, 1484 - 40, 730, 4000);
+      const wall_left = createWall(-2000, 0, 2020, 1484);
+      const wall_right = createWall(730, 0, 2220, 1484);
+      const wall_top = createWall(0, -1980, 730, 2000);
 
       const boardWall = createWall(42, 562, 20, 238);
       const hoop_left = createWall(62, 752, 30, 10);
@@ -127,7 +210,7 @@ export default {
       //当篮球碰到A再碰到B，算得分
       const GoalA = createSensor(125, 752, 40, 10, function () {
         _this.isGoalA = true;
-         if (_this.isGoalB) {
+        if (_this.isGoalB) {
           _this.isGoalB = false;
         }
       });
@@ -148,20 +231,20 @@ export default {
             const text = scoreObj.getComponent(Text);
             text.text = `得分：${_this.score}`;
           });
-
+          store.ball.transform.position.x = 500;
+          store.ball.transform.position.y = 1000;
           _this.isGoalB = false;
           _this.isGoalA = false;
         }
       });
 
-      const physics = ball.addComponent(
+      const physics = store.ball.addComponent(
         new Physics({
           type: PhysicsType.CIRCLE,
           radius: 39.5,
+        
           bodyOptions: {
-            isStatic: false,
-            density: 0.005,
-            restitution: 1.2,
+            // restitution: 1.1,
             frictionAir: 0.1,
             friction: 0.06,
             frictionStatic: 0.3,
@@ -179,14 +262,16 @@ export default {
 
       game.scene.addChild(createBackground());
       game.scene.addChild(createBoard());
-      game.scene.addChild(ball);
+      game.scene.addChild(store.ball);
       game.scene.addChild(basetFront);
       game.scene.addChild(btn);
+      game.scene.addChild(power);
       game.scene.addChild(wall_bottom);
       game.scene.addChild(wall_left);
       game.scene.addChild(wall_right);
       game.scene.addChild(wall_top);
       game.scene.addChild(hoop_left);
+
       game.scene.addChild(hoop_right);
       game.scene.addChild(createScore());
       game.scene.addChild(GoalA);

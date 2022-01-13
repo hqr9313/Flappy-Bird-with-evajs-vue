@@ -4,7 +4,7 @@ import { Graphics } from '@eva/plugin-renderer-graphics';
 import { Text } from '@eva/plugin-renderer-text';
 import { Transition } from '@eva/plugin-transition';
 
-export default function createBtn({ text, transform = {}, callback = ()=>{} }) {
+export default function createBtn({ text, transform = {}, touchStart = ()=>{} ,touchEnd = ()=>{}}) {
   const box = new GameObject('box', {
     size: {
       width: 320,
@@ -94,9 +94,12 @@ export default function createBtn({ text, transform = {}, callback = ()=>{} }) {
   transition.play('idle', Infinity)
 
   const evt = box.addComponent(new Event)
-  evt.on('tap', () => {
-    callback()
+  evt.on('touchstart', () => {
+    touchStart()
   })
   
+  evt.on('touchend', () => {
+    touchEnd()
+  })
   return box;
 }

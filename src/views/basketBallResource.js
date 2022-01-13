@@ -7,6 +7,7 @@ export default [
       image: {
         type: "png",
         url: "@/../static/TB1WF1R0Ez1gK0jSZLeXXb9kVXa-99-99.png",
+
       },
     },
     preload: true,

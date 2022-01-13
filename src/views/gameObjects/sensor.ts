@@ -32,7 +32,7 @@ export default function createSensor(x, y, width, height, callback) {
         }),
     );
 
-    physics.on('collisionStart', (body, gameObject1, gameObject2) => {
+    physics.on('collisionStart', () => {
         if (typeof callback === "function") {
             callback();
         }
